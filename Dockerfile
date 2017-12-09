@@ -8,7 +8,8 @@ RUN apt-get update && apt-get install -y \
   libpcre3-dev \
   curl \
   mysql-client \
-  git-core
+  git-core \
+  build-essential
 
 RUN docker-php-ext-install -j$(nproc) mysqli                                                    && \
   docker-php-ext-install -j$(nproc) pdo_mysql                                                   && \
@@ -44,3 +45,12 @@ RUN phpcs --config-set installed_paths /root/.composer/vendor/drupal/coder/coder
 
 RUN ln -s /composer/vendor/drupal/coder/coder_sniffer/Drupal/composer/vendor/squizlabs/php_codesniffer/CodeSniffer/Standards/Drupal
 RUN ln -s /composer/vendor/drupal/coder/coder_sniffer/DrupalPractice/composer/vendor/squizlabs/php_codesniffer/CodeSniffer/Standards/Drupal/Practice
+
+# install nodejs
+RUN curl -sL https://deb.nodesource.com/setup_9.x | bash - && \
+  apt-get install -y nodejs && \
+  npm install -g eslint && \
+  npm install -g eslint-plugin-import && \
+  npm install -g eslint-plugin-jsx-a11y && \
+  npm install -g eslint-config-airbnb && \
+  npm install -g eslint-plugin-react
